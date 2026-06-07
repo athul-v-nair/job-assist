@@ -5,6 +5,7 @@ from src.graph.state import JobAssistAgentState
 from src.nodes.analyzer import resume_jd_analyzer_node
 from src.nodes.rewriter import resume_rewriter_node
 from src.nodes.rescorer import rescorer_node
+from src.nodes.cover_letter import cover_letter_node
 from src.nodes.roadmap import roadmap_node
 from src.nodes.interview_prep import interview_prep_node
 
@@ -50,7 +51,7 @@ def route_after_score(state: JobAssistAgentState) -> str:
             "route_after_rescorer: thresholds met (ATS: %d >= %d, match: %d%% >= %d%%) — proceeding to END",
             ats_score, ATS_THRESHOLD, match_percentage, MATCH_THRESHOLD,
         )
-        return "roadmap"
+        return "cover_letter"
 
     if iteration >= MAX_ITERATIONS:
         logger.warning(
@@ -58,7 +59,8 @@ def route_after_score(state: JobAssistAgentState) -> str:
             "Best scores: ATS %d, match %d%%",
             MAX_ITERATIONS, ats_score, match_percentage,
         )
-        return "roadmap"
+        # return "resume_creation"
+        return "cover_letter"
 
     # Increment iteration counter before looping back
     state["iteration"] = iteration + 1
@@ -78,6 +80,7 @@ def build_graph():
     graph.add_node('resume_jd_analyzer', resume_jd_analyzer_node)
     graph.add_node('resume_rewriter', resume_rewriter_node)
     graph.add_node('rescorer', rescorer_node)
+    graph.add_node('cover_letter', cover_letter_node)
     graph.add_node('roadmap', roadmap_node)
     graph.add_node('interview_prep', interview_prep_node)
 
@@ -93,7 +96,7 @@ def build_graph():
         route_after_score,
         {
             "resume_rewriter": "resume_rewriter",
-            "roadmap": "roadmap"
+            "cover_letter": "cover_letter"
         },
     )
 
@@ -105,10 +108,12 @@ def build_graph():
         route_after_score,
         {
             "resume_rewriter": "resume_rewriter",
-            "roadmap": "roadmap"
+            "cover_letter": "cover_letter"
         },
     )
 
+    # graph.add_edge('resume_creation','cover_letter')
+    graph.add_edge('cover_letter', 'roadmap')
     graph.add_edge('roadmap', 'interview_prep')
     graph.add_edge('interview_prep', END)
 
