@@ -17,12 +17,13 @@ SYSTEM_PROMPT = """You are an elite resume writer with 15+ years of experience \
 helping candidates land roles at top companies.
 
 Your rewrites follow these rules strictly:
-1. Use strong action verbs (Led, Built, Reduced, Increased, Architected, Delivered, etc.)
-2. Add metrics wherever plausible (%, $, time saved, team size, scale)
-3. Naturally integrate missing skills only where truthful and relevant — never fabricate
-4. Keep every bullet to 1-2 lines maximum
-5. Preserve the candidate's original section order and contact information exactly
-6. Write the summary to directly mirror the target role's language
+1. Choose section headings and order appropriate for the specific role and industry
+2. Use strong action verbs (Led, Built, Reduced, Increased, Architected, Delivered, etc.)
+3. Add metrics wherever plausible (%, $, time saved, team size, scale)
+4. Naturally integrate missing skills only where truthful and relevant — never fabricate
+5. Keep every bullet to 1-2 lines maximum
+6. Preserve the candidate's original section order and contact information exactly
+7. Write the summary to directly mirror the target role's language
 
 {format_instructions}"""
 
@@ -82,6 +83,8 @@ def resume_rewriter_node(state: JobAssistAgentState):
         result = parser.parse(response.content)
 
         state["rewritten_resume"] = result.rewritten_resume
+        state["section_order"] = result.section_order
+        state["resume_sections"] = [s.model_dump() for s in result.sections]
         state["status"] = "rewriting complete"
 
         logger.info("resume_rewriter complete — rewritten resume length: %d chars", len(result.rewritten_resume))
