@@ -1,0 +1,8 @@
+langchain
+langgraph
+langsmith
+pydantic
+python-dotenv
+grandalf
+pyMuPDF
+langchain_nvidia_ai_endpoints
