@@ -1,0 +1,24 @@
+[project]
+name = "job-assist"
+version = "0.1.0"
+description = "AI-powered resume analysis, rewriting, and interview preparation agent"
+requires-python = ">=3.11"
+dependencies = [
+    # ── LangChain / LangGraph ─────────────────────────────────────
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-nvidia-ai-endpoints>=0.3.0",
+    "langgraph>=0.2.0",
+    "langsmith>=0.1.0",
+ 
+    # ── Streamlit UI ──────────────────────────────────────────────
+    "streamlit>=1.39.0",
+ 
+    # ── PDF parsing ───────────────────────────────────────────────
+    "PyMuPDF>=1.24.0",
+ 
+    # ── Config & validation ───────────────────────────────────────
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.0",
+    "python-dotenv>=1.0.0",
+]
