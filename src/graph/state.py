@@ -21,8 +21,9 @@ class JobAssistAgentState(TypedDict):
     baseline_match_percentage: int # 0-100, resume vs JD overlap
 
     # ── Resume Rewriter ───────────────────────────────────
-    # rewritten_bullets: list[str]   # For comparing the changes
     rewritten_resume: str          # Full rewritten resume text
+    section_order: list[str]       # LLM-decided section order for this role
+    resume_sections: list[dict]    # [{heading, content}] — used by resume PDF node
 
     # ── Re-scorer ─────────────────────────────────────────
     improved_ats_score: int        # 0-100, after rewriting
@@ -30,11 +31,15 @@ class JobAssistAgentState(TypedDict):
     judge_score: int               # LLM-as-judge quality score (0-10)
     judge_feedback: str            # Judge's reasoning / suggestions
 
-    # ── Node 5: Roadmap and Resources ─────────────────────
+    # ── Cover Letter ─────────────────────────────────────────────────
+    cover_letter: str
+    cover_letter_subject: str
+
+    # ── Roadmap and Resources ─────────────────────
     skill_gaps: list[str]          # refined missing skills specific to this role
     skill_roadmap: list[dict]      # [{skill, why, resource, duration}]
 
-    # ── Node 6: Preparation Helper ───────────────────────────────────
+    # ── Preparation Helper ───────────────────────────────────
     interview_topics: list[str]    # High-level topic areas
     interview_questions: list[str] # Specific practice questions
 
