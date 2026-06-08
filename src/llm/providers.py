@@ -37,5 +37,5 @@ def get_complex_llm() -> ChatNVIDIA:
         model=settings.complex_model,
         api_key=settings.nvidia_api_key,
         temperature=0.3,
-        max_tokens=2048,
+        # max_tokens=3048,
     )
