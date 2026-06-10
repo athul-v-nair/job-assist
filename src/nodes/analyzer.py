@@ -81,8 +81,8 @@ def resume_jd_analyzer_node(state: JobAssistAgentState):
         state["jd_analysis"] = result.jd_analysis
         state["execution_plan"] = result.execution_plan
         
-        state["ats_score"] = result.ats_score
-        state["match_percentage"] = result.match_percentage
+        state["baseline_ats_score"] = result.ats_score
+        state["baseline_match_percentage"] = result.match_percentage
         state["matched_skills"] = result.matched_skills
         state["missing_skills"] = result.missing_skills
         state["strengths"] = result.strengths

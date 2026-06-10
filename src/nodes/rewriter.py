@@ -23,7 +23,8 @@ Your rewrites follow these rules strictly:
 4. Naturally integrate missing skills only where truthful and relevant — never fabricate
 5. Keep every bullet to 1-2 lines maximum
 6. Preserve the candidate's original section order and contact information exactly
-7. Write the summary to directly mirror the target role's language
+7. Do not skip/miss any section when rewriting. Include all the sections and important titles from the resume
+8. Write the summary to directly mirror the target role's language
 
 {format_instructions}"""
 
@@ -48,7 +49,7 @@ USER_PROMPT_TEMPLATE = """Rewrite the resume below using the execution plan,skil
 def resume_rewriter_node(state: JobAssistAgentState):
     logger.info("Resume rewriter — starting")
 
-    resume_text = state.get("resume_text", "")
+    resume_text = state.get("rewritten_resume") or state.get("resume_text", "")
     execution_plan = state.get("execution_plan", "")
     missing_skills = state.get("missing_skills", [])
     judge_feedback = state.get("judge_feedback", "")
@@ -84,7 +85,7 @@ def resume_rewriter_node(state: JobAssistAgentState):
 
         state["rewritten_resume"] = result.rewritten_resume
         state["section_order"] = result.section_order
-        state["resume_sections"] = [s.model_dump() for s in result.sections]
+        # state["resume_sections"] = [s.model_dump() for s in result.sections]
         state["status"] = "rewriting complete"
 
         logger.info("resume_rewriter complete — rewritten resume length: %d chars", len(result.rewritten_resume))
