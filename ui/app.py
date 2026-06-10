@@ -46,7 +46,7 @@ st.set_page_config(
 # ── Load CSS ──────────────────────────────────────────────────────────────────
 css_path = Path(__file__).parent / "styles.css"
 if css_path.exists():
-    st.markdown(f"<style>{css_path.read_text(encoding="utf-8")}</style>", unsafe_allow_html=True)
+    st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────────
 if "result"     not in st.session_state: st.session_state.result     = None
@@ -63,10 +63,9 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown("<hr class='sidebar-divider'>", unsafe_allow_html=True)
-    st.markdown("<span class='sidebar-section-label'>Upload Resume</span>", unsafe_allow_html=True)
     resume_file = st.file_uploader(
-        "Resume PDF", type=["pdf"],
-        label_visibility="collapsed",
+        "Upload Resume",
+        type=["pdf"],
         help="Text-based PDF only (not scanned)",
     )
 
@@ -155,7 +154,7 @@ if run_btn and resume_file and jd_text.strip():
 # ── Results ───────────────────────────────────────────────────────────────────
 if st.session_state.result:
     r = st.session_state.result
-
+    
     render_masthead(
         jd_role=r.get("jd_role", ""),
         jd_seniority=r.get("jd_seniority", ""),

@@ -34,8 +34,23 @@
 [data-testid="stSidebar"] {
     background: var(--bg-card) !important;
     border-right: 1px solid var(--border) !important;
+    overflow-x: hidden !important;
+    min-width: 280px !important;
 }
-[data-testid="stSidebar"] .block-container { padding: 2rem 1.5rem !important; }
+[data-testid="stSidebar"] .block-container {
+    padding: 2rem 1.5rem !important;
+    overflow-x: hidden !important;
+}
+ 
+/* Hide the collapse arrow button entirely */
+[data-testid="stSidebarCollapseButton"] {
+    display: none !important;
+}
+ 
+/* Prevent sidebar from collapsing on button click */
+[data-testid="stSidebarContent"] {
+    overflow-x: hidden !important;
+}
 
 /* ── Typography ─────────────────────────────────────────────────── */
 h1, h2, h3, h4 { color: var(--text-1) !important; }
@@ -90,12 +105,18 @@ textarea:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 2px v
     background: transparent !important;
     color: var(--text-3) !important;
     border: none !important;
+    border-radius: 0 !important;
     font-size: 0.82rem !important;
     font-weight: 500 !important;
     letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
     padding: 0.7rem 1.2rem !important;
     border-bottom: 2px solid transparent !important;
+    transition: color 0.15s !important;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: var(--text-2) !important;
+    background: transparent !important;
 }
 .stTabs [aria-selected="true"] {
     color: var(--accent) !important;
@@ -179,13 +200,7 @@ textarea:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 2px v
 .dot-error   { background: var(--accent-red); }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
-/* ── Score cards ────────────────────────────────────────────────── */
-.score-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1.5rem;
-}
+/* ── Score cards — layout handled by st.columns in Python ───────── */
 .score-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -207,11 +222,6 @@ textarea:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 2px v
     letter-spacing: 0.1em;
     font-weight: 600;
 }
-.num-green  { color: #4ade80; }
-.num-yellow { color: var(--accent); }
-.num-orange { color: #fb923c; }
-.num-red    { color: var(--accent-red); }
-.num-blue   { color: var(--accent-blue); }
 
 /* ── Skill tags ─────────────────────────────────────────────────── */
 .tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
