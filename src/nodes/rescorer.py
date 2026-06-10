@@ -73,7 +73,6 @@ def rescorer_node(state: JobAssistAgentState):
         state["improved_match_percentage"] = result.improved_match_percentage
         state["judge_score"] = result.judge_score
         state["judge_feedback"] = result.judge_feedback
-        state["iteration"] = result.iteration + 1
         state["status"] = "rescoring complete"
 
         logger.info(

@@ -25,10 +25,10 @@ class RewriterOutput(BaseModel):
             "Choose headings that make sense for the role — do not force a tech structure onto non-tech roles."
         )
     )
-    sections: list[ResumeSection] = Field(
-        description="The actual content for each section, in the same order as section_order. "
-                    "Every heading in section_order must have a corresponding entry here."
-    )
+    # sections: list[ResumeSection] = Field(
+    #     description="The actual content for each section, in the same order as section_order. "
+    #                 "Every heading in section_order must have a corresponding entry here."
+    # )
 
     rewritten_resume: str = Field(
         description=(
