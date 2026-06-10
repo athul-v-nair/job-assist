@@ -23,14 +23,16 @@ def _esc(text: str) -> str:
 # ── Masthead ──────────────────────────────────────────────────────────────────
 
 def render_masthead(jd_role: str = "", jd_seniority: str = "") -> None:
-    role_line = f"<span class='masthead-sub'>{jd_role} · {jd_seniority.capitalize()}</span>" if jd_role else ""
+    role_line = f"<span class='masthead-sub'>{_esc(jd_role)} · {_esc(jd_seniority.capitalize())}</span>" if jd_role else ""
     st.markdown(f"""
     <div class="masthead">
         <div>
             <div class="masthead-title">Job<em>Assist</em></div>
-            {role_line}
+            <div>{role_line}</div>
         </div>
-        <div class="masthead-sub">AI · Resume · Career</div>
+        <div class="masthead-sub">
+            AI · Resume · Career
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -76,23 +78,28 @@ def render_scores(state: dict) -> None:
     match_i   = state.get("improved_match_percentage", 0)
     judge     = state.get("judge_score", 0)
     iteration = state.get("iteration", 0)
-
+            
     def card(label, value, suffix, cls):
         return f"""
         <div class="score-card">
-            <div class="score-num {cls}">{value}{suffix}</div>
-            <div class="score-lbl">{label}</div>
+            <div class="score-num {cls}">
+                {value}{suffix}
+            </div>
+            <div class="score-lbl">
+                {label}
+            </div>
         </div>"""
 
-    st.markdown(f"""
-    <div class="score-grid">
-        {card("Baseline ATS",  baseline,  "%", _score_class(baseline))}
-        {card("Improved ATS",  improved,  "%", _score_class(improved))}
-        {card("Match Score",   match_i or match_b, "%", _score_class(match_i or match_b))}
-        {card("Judge Score",   judge,     "/10", _score_class(judge * 10))}
-    </div>
-    """, unsafe_allow_html=True)
-
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.markdown(card("Baseline ATS", baseline, "%", _score_class(baseline)), unsafe_allow_html=True)
+    with c2:
+        st.markdown(card("Improved ATS", improved, "%", _score_class(improved)), unsafe_allow_html=True)
+    with c3:
+        match = match_i or match_b
+        st.markdown(card("Match Score", match, "%", _score_class(match)), unsafe_allow_html=True)
+    with c4:
+        st.markdown(card("Judge Score", judge, "/10", _score_class(judge * 10)), unsafe_allow_html=True)
 
 # ── Skill tags ────────────────────────────────────────────────────────────────
 
@@ -176,7 +183,8 @@ def render_skills_tab(state: dict) -> None:
     with col1:
         strengths = state.get("strengths", [])
         if strengths:
-            st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Strengths</div>",
+            # st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Strengths</div>",
+            st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Strengths",
                         unsafe_allow_html=True)
             for s in strengths:
                 st.markdown(f"<div class='roadmap-card'><div class='roadmap-skill'>↑ {_esc(s)}</div></div>",
@@ -184,7 +192,8 @@ def render_skills_tab(state: dict) -> None:
     with col2:
         weaknesses = state.get("weakness", [])
         if weaknesses:
-            st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Weaknesses</div>",
+            # st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Weaknesses</div>",
+            st.markdown("<div class='section-eyebrow' style='margin-top:1rem'>Weaknesses",
                         unsafe_allow_html=True)
             for w in weaknesses:
                 st.markdown(f"<div class='roadmap-card' style='border-left-color:var(--accent-red)'>"
@@ -231,7 +240,8 @@ def render_roadmap_tab(state: dict) -> None:
 
 def render_interview_tab(state: dict) -> None:
     topics = state.get("interview_topics", [])
-    qa     = state.get("interview_qa", [])
+    # qa     = state.get("interview_qa", [])
+    qa     = state.get("interview_questions", [])
 
     if not topics and not qa:
         st.info("Interview prep not yet generated.")
