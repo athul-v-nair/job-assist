@@ -66,7 +66,7 @@ def interview_prep_node(state: JobAssistAgentState):
         result = parser.parse(response.content)
 
         state["interview_topics"] = result.interview_topics
-        state["interview_qa"] = result.interview_qa
+        state["interview_questions"] = result.interview_qa
 
         logger.info(
             "interview_prep complete — %d topics, %d questions",
